@@ -9,12 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="resources\marshalsec-0.0.3-SNAPSHOT-all.jar">
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\Run.java">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Resources\marshalsec-0.0.3-SNAPSHOT-all.jar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Run.java">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy ..\PayloadCodeBaseServer\bin\$(Configuration)\net6.0\* $(OutDir)\Resources" />
+  </Target>
 
 </Project>

@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CybBezWireshark", "CybBezWireshark\CybBezWireshark.csproj", "{4E277E27-4DA1-48F5-B9AE-CFF248F8A8D7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2454D24A-0647-4F77-9A79-5FE783242C20} = {2454D24A-0647-4F77-9A79-5FE783242C20}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayloadCodeBaseServer", "PayloadCodeBaseServer\PayloadCodeBaseServer.csproj", "{2454D24A-0647-4F77-9A79-5FE783242C20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayloadCodeBaseServer", "PayloadCodeBaseServer\PayloadCodeBaseServer.csproj", "{2454D24A-0647-4F77-9A79-5FE783242C20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
