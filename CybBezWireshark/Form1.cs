@@ -20,16 +20,9 @@ namespace CybBezWireshark
             this.httpClient = new HttpClient();
             button3.Enabled = false;
             backgroundWorker1.RunWorkerAsync();
-        }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
+            //Log4Shell
+            radioButton2.Checked = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -78,6 +71,5 @@ namespace CybBezWireshark
                 }
 
         }
-
     }
 }
