@@ -54,6 +54,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.label5 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -331,6 +332,7 @@
             // 
             // DoS
             // 
+            this.DoS.Controls.Add(this.label5);
             this.DoS.Controls.Add(this.button3);
             this.DoS.Controls.Add(this.button2);
             this.DoS.Controls.Add(this.trackBar1);
@@ -338,7 +340,7 @@
             this.DoS.Controls.Add(this.button1);
             this.DoS.Location = new System.Drawing.Point(4, 24);
             this.DoS.Name = "DoS";
-            this.DoS.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.DoS.Padding = new System.Windows.Forms.Padding(3);
             this.DoS.Size = new System.Drawing.Size(692, 310);
             this.DoS.TabIndex = 2;
             this.DoS.Text = "DoS";
@@ -389,13 +391,22 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(199, 53);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Send";
+            this.button1.Text = "Send single request";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // backgroundWorker1
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(250, 151);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(143, 15);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Set frequency of requests:";
             // 
             // Form1
             // 
@@ -455,5 +466,6 @@
         private TextBox textBox3;
         private TextBox textBox4;
         private Button button5;
+        private Label label5;
     }
 }
