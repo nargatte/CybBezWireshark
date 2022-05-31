@@ -45,6 +45,7 @@
             this.subjectTextBox = new System.Windows.Forms.TextBox();
             this.bodyTextBox = new System.Windows.Forms.TextBox();
             this.portNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.portNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
@@ -199,11 +200,21 @@
             0,
             0});
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(563, 21);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(126, 80);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "Created by:\nGrzegorz Krzysiak\nIgor Szołucha\nMikołaj Pohorecki\n";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 501);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.portNumericUpDown);
             this.Controls.Add(this.bodyTextBox);
             this.Controls.Add(this.subjectTextBox);
@@ -222,7 +233,9 @@
             this.Controls.Add(this.sendEmailButton);
             this.Controls.Add(this.serverTextBox);
             this.Name = "Form1";
-            this.Text = "Email Capture";
+            this.Text = "Projekt efektywnego wykorzystania aplikacji Wireshark do analizy danych sieciowyc" +
+    "h";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.portNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -248,5 +261,6 @@
         private TextBox subjectTextBox;
         private TextBox bodyTextBox;
         private NumericUpDown portNumericUpDown;
+        private Label label5;
     }
 }
