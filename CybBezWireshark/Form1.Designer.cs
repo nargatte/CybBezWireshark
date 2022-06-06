@@ -173,6 +173,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.radioButton1, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.button4, 0, 6);
+            this.tableLayoutPanel1.Cursor = System.Windows.Forms.Cursors.Default;
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -193,7 +194,7 @@
             this.button5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button5.Location = new System.Drawing.Point(260, 162);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(79, 41);
+            this.button5.Size = new System.Drawing.Size(79, 31);
             this.button5.TabIndex = 10;
             this.button5.Text = "copy";
             this.button5.UseVisualStyleBackColor = true;
@@ -310,7 +311,7 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.button4, 2);
             this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button4.Location = new System.Drawing.Point(3, 209);
+            this.button4.Location = new System.Drawing.Point(3, 199);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(336, 29);
             this.button4.TabIndex = 8;
