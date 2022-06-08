@@ -55,6 +55,9 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.EmailCaptureTab = new System.Windows.Forms.TabPage();
+            this.DecoderOutputTextBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.DecoderInputTextBox = new System.Windows.Forms.TextBox();
             this.portNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.bodyTextBox = new System.Windows.Forms.TextBox();
             this.subjectTextBox = new System.Windows.Forms.TextBox();
@@ -424,6 +427,9 @@
             // 
             // EmailCaptureTab
             // 
+            this.EmailCaptureTab.Controls.Add(this.DecoderOutputTextBox);
+            this.EmailCaptureTab.Controls.Add(this.label10);
+            this.EmailCaptureTab.Controls.Add(this.DecoderInputTextBox);
             this.EmailCaptureTab.Controls.Add(this.portNumericUpDown);
             this.EmailCaptureTab.Controls.Add(this.bodyTextBox);
             this.EmailCaptureTab.Controls.Add(this.subjectTextBox);
@@ -448,6 +454,33 @@
             this.EmailCaptureTab.TabIndex = 3;
             this.EmailCaptureTab.Text = "EmailCapture";
             this.EmailCaptureTab.UseVisualStyleBackColor = true;
+            // 
+            // DecoderOutputTextBox
+            // 
+            this.DecoderOutputTextBox.Location = new System.Drawing.Point(467, 257);
+            this.DecoderOutputTextBox.Multiline = true;
+            this.DecoderOutputTextBox.Name = "DecoderOutputTextBox";
+            this.DecoderOutputTextBox.ReadOnly = true;
+            this.DecoderOutputTextBox.Size = new System.Drawing.Size(299, 111);
+            this.DecoderOutputTextBox.TabIndex = 37;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(467, 103);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(69, 20);
+            this.label10.TabIndex = 36;
+            this.label10.Text = "Dekoder:";
+            // 
+            // DecoderInputTextBox
+            // 
+            this.DecoderInputTextBox.Location = new System.Drawing.Point(467, 135);
+            this.DecoderInputTextBox.Multiline = true;
+            this.DecoderInputTextBox.Name = "DecoderInputTextBox";
+            this.DecoderInputTextBox.Size = new System.Drawing.Size(299, 103);
+            this.DecoderInputTextBox.TabIndex = 35;
+            this.DecoderInputTextBox.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // portNumericUpDown
             // 
@@ -683,5 +716,8 @@
         private Label label9;
         private Button sendEmailButton;
         private TextBox serverTextBox;
+        private Label label10;
+        private TextBox DecoderInputTextBox;
+        private TextBox DecoderOutputTextBox;
     }
 }

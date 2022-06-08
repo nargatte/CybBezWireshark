@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 
 namespace CybBezWireshark
 {
@@ -187,6 +188,16 @@ namespace CybBezWireshark
         private void loginTextBox_TextChanged(object sender, EventArgs e)
         {
             senderTextBox.Text = loginTextBox.Text.Trim();
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var bytes = Convert.FromBase64String(DecoderInputTextBox.Text);
+                DecoderOutputTextBox.Text = Encoding.UTF8.GetString(bytes);
+            }
+            catch { DecoderOutputTextBox.Text = "Niepoprawny kod"; }
         }
     }
 }

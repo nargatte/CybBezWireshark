@@ -10,8 +10,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CybBezWireshark", "CybBezWi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayloadCodeBaseServer", "PayloadCodeBaseServer\PayloadCodeBaseServer.csproj", "{2454D24A-0647-4F77-9A79-5FE783242C20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailCapture", "EmailCapture\EmailCapture.csproj", "{60017529-E9D9-4905-AF0E-0AA3AE5CF994}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,10 +24,6 @@ Global
 		{2454D24A-0647-4F77-9A79-5FE783242C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2454D24A-0647-4F77-9A79-5FE783242C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2454D24A-0647-4F77-9A79-5FE783242C20}.Release|Any CPU.Build.0 = Release|Any CPU
-		{60017529-E9D9-4905-AF0E-0AA3AE5CF994}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60017529-E9D9-4905-AF0E-0AA3AE5CF994}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60017529-E9D9-4905-AF0E-0AA3AE5CF994}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60017529-E9D9-4905-AF0E-0AA3AE5CF994}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
